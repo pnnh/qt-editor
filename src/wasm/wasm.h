@@ -6,6 +6,7 @@
 #define QT_CANVAS_WASM_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -34,9 +35,16 @@ emscripten::val tryStdString() {
   return emscripten::val(str);
 }
 
+emscripten::val tryCalcMd5(std::string content) {
+  std::cout << " calcMd5 content " << content << std::endl;
+  auto md5Val = calcMd5(content);
+  return emscripten::val(md5Val);
+}
+
 EMSCRIPTEN_BINDINGS(demo) {
   emscripten::function("tryCharPtr", &tryCharPtr);
   emscripten::function("tryStdString", &tryStdString);
+  emscripten::function("tryCalcMd5", &tryCalcMd5);
 }
 
 extern "C" {

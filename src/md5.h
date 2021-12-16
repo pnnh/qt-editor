@@ -9,9 +9,6 @@
 
 using namespace std;
 
-class md5 {
- public:
-  string calcMd5(string);
-};
+string calcMd5(const string& content);
 
 #endif //QT_CANVAS_MD5_H

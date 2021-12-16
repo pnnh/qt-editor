@@ -5,9 +5,9 @@
 #include "md5.h"
 #include <QtCore>
 
-string md5::calcMd5(string) {
+string calcMd5(const string& content) {
   QString md5;
-  QString pwd="123456";
+  QString pwd = QString::fromUtf8(content);
   QByteArray bb;
 
   bb = QCryptographicHash::hash (pwd.toUtf8(), QCryptographicHash::Md5 );

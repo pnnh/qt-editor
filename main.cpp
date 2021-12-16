@@ -16,9 +16,8 @@ int main(int argc, char *argv[]) {
   if (engine.rootObjects().isEmpty())
     return -1;
 
-  std::cout << "compare: " << compareBig(100, 30) << endl;
-  md5 m;
-  std::cout << "计算MD5：" << m.calcMd5("啊哈哈abc") << endl;
+//  std::cout << "compare: " << compareBig(100, 30) << endl;
+//  std::cout << "计算MD5：" << calcMd5("啊哈哈abc") << endl;
 
   return app.exec();
 }
