@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QStringView>
+#include "src/sqlite/sqlite.h"
 
 typedef QVector<QString> VideoData;
 class VideoListModelPrivate {
@@ -20,13 +21,25 @@ class VideoListModelPrivate {
     clear();
   }
   void load() {
+//    VideoData *video;
+//    int index = 0;
+//    while (index++ < 10) {
+//      video = new VideoData();
+//      video->append("name " );
+//      m_videos.append(video);
+//    }
     VideoData *video;
-    int index = 0;
-    while (index++ < 10) {
+    auto dataVector = runSqlite();
+    QVectorIterator<TestInfo> dataIterator(dataVector);
+    while (dataIterator.hasNext()) {
+      auto info = dataIterator.next();
+      qDebug() << "info ==" << info.UserName;
+
       video = new VideoData();
-      video->append("name " );
+      video->append("name " + info.UserName );
       m_videos.append(video);
     }
+
   }
   void reset() {
     m_bError = false;

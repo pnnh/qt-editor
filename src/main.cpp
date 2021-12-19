@@ -23,8 +23,6 @@ int main(int argc, char *argv[]) {
 //  std::cout << "compare: " << compareBig(100, 30) << endl;
 //  std::cout << "计算MD5：" << calcMd5("啊哈哈abc") << endl;
 
-  runSqlite(argc, argv);
-
   return app.exec();
 }
 

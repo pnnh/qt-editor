@@ -12,28 +12,16 @@
 #include <QtSql/QSqlRecord>
 #include <QSqlError>
 
-
-typedef struct _testInfo //假定数据库存储内容
-{
-  QString UsreName;
-  QString IP;
-  QString Port;
-  QString PassWord;
-  QString Type;
-
-}testInfo;
-
-int runSqlite(int argc, char *argv[]) {
-  //QApplication a(argc, argv);
-
-  QVector<testInfo> infoVect; //testInfo向量，用于存储数据库查询到的数据
+QVector<TestInfo> runSqlite() {
+  QVector<TestInfo> infoVect; //testInfo向量，用于存储数据库查询到的数据
 
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
   auto dbName = QApplication::applicationDirPath() + "/data.sqlite";
   db.setDatabaseName(dbName);
   if (!db.open()) {
-    return -1;
+    qDebug() << "打开数据库文件出错: " << db.lastError().text();
+    return infoVect;
   }
 
 /**************************使用QSqlQuery操作数据库**************************/
@@ -43,7 +31,7 @@ int runSqlite(int argc, char *argv[]) {
   QString sql = QString("select * from sqlite_master where name='%1'").arg("T_USER_MANAGE");
   if(!query.exec(sql)){
     qDebug() << "检查表是否存在出错: " << query.lastError().text();
-    return -2;
+    return infoVect;
   }
   QString columnName;
   if (query.next()) {
@@ -51,14 +39,14 @@ int runSqlite(int argc, char *argv[]) {
   }
   if (columnName != "T_USER_MANAGE") {
     if (!query.exec("CREATE TABLE T_USER_MANAGE("
-                    "UsreName VARCHAR,"
+                    "UserName VARCHAR,"
                     "IP VARCHAR,"
                     "PassWord VARCHAR,"
                     "Type VARCHAR,"
                     "Port VARCHAR)")) {
       qDebug() << "创建表出错: " << query.lastError().text();
       //qDebug() << "Database Error: " << query.lastError().text();
-      return false;
+      return infoVect;
     }
   }
 
@@ -71,8 +59,8 @@ int runSqlite(int argc, char *argv[]) {
   QString s1 = recode.fieldName(0);        //获取第0列的列名
 
   while (query.next()) {
-    testInfo tmp;
-    tmp.UsreName = query.value("UsreName").toString();
+    TestInfo tmp;
+    tmp.UserName = query.value("UserName").toString();
     tmp.IP = query.value("IP").toString();
     tmp.Port = query.value("Port").toString();
     tmp.PassWord = query.value("PassWord").toString();
@@ -83,7 +71,7 @@ int runSqlite(int argc, char *argv[]) {
 
   for (int i = 0; i < infoVect.size(); i++)    //打印输出
   {
-    qDebug() << infoVect[i].UsreName << ":"    \
+    qDebug() << infoVect[i].UserName << ":"    \
  << infoVect[i].IP << ":"        \
  << infoVect[i].Port << ":"        \
  << infoVect[i].PassWord << ":" \
@@ -92,7 +80,7 @@ int runSqlite(int argc, char *argv[]) {
 
   //插入数据
   query.prepare(
-      "INSERT INTO T_USER_MANAGE (UsreName, IP, Port, PassWord, Type) VALUES (:UsreName, :IP, :Port, :PassWord, :Type)");
+      "INSERT INTO T_USER_MANAGE (UserName, IP, Port, PassWord, Type) VALUES (:UserName, :IP, :Port, :PassWord, :Type)");
   query.bindValue(":UserName", "user4");    //给每个插入值标识符设定具体值
   query.bindValue(":IP", "192.168.1.5");
   query.bindValue(":Port", "5004");
@@ -111,5 +99,5 @@ int runSqlite(int argc, char *argv[]) {
 //  query.prepare("DELETE FROM T_USER_MANAGE WHERE UserName='user4'");
 //  query.exec();
 
-  return 0;
+  return infoVect;
 }
