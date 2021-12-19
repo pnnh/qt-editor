@@ -36,7 +36,7 @@ class VideoListModelPrivate {
       qDebug() << "info ==" << info.UserName;
 
       video = new VideoData();
-      video->append("name " + info.UserName );
+      video->append("name " + info.UserName);
       m_videos.append(video);
     }
 
@@ -89,6 +89,7 @@ void VideoListModel::setSource(const QString &filePath) {
     qDebug() << "VideoListModel, error - " << m_dptr->m_strError;
   }
 }
+
 QString VideoListModel::errorString() const {
   return m_dptr->m_strError;
 }
