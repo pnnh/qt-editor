@@ -4,12 +4,11 @@ import QtQuick.Window 2.9
 import QtQuick.Layouts 1.12
 import an.qt.CModel 1.0
 
-Window {
-    visible: true;
-    width: 800;
-    height: 600;
-    title: qsTr("Hello World");
-    color: "#EEEEEE";
+Rectangle {
+    anchors.fill: parent;
+//    Text {
+//        text: "Videos"
+//    }
 
     Component {
         id: videoDelegate;
@@ -39,14 +38,12 @@ Window {
         id: listView;
         anchors.fill: parent;
         spacing: 4;
+        clip:true
         delegate: videoDelegate;
         model: VideoListModel {
             source: "videos.xml";
         }
         focus: true;
-        highlight: Rectangle {
-            width: parent.width;
-            color: "lightblue";
-        }
     }
+
 }

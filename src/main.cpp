@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
 
   QQmlApplicationEngine engine;
-  const QUrl url(QStringLiteral("qrc:/src/qrc/list_videos.qml"));
+  const QUrl url(QStringLiteral("qrc:/src/qrc/main.qml"));
 
   engine.load(url);
 
