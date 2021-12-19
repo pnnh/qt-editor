@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
         src/md5.cc src/md5.h
         src/wasm/wasm.h
         src/sqlite/sqlite.cc src/sqlite/sqlite.h
+        src/models/videoListModel.cc src/models/videoListModel.h
         qml.qrc)
 
 qt_add_executable(qt-editor

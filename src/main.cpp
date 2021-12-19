@@ -5,12 +5,15 @@
 #include "wasm/wasm.h"
 #include <iostream>
 #include "sqlite/sqlite.h"
+#include "models/videoListModel.h"
 
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
+  qmlRegisterType<VideoListModel>("an.qt.CModel", 1, 0, "VideoListModel");
+
 
   QQmlApplicationEngine engine;
-  const QUrl url(QStringLiteral("qrc:/src/qrc/textfield.qml"));
+  const QUrl url(QStringLiteral("qrc:/src/qrc/list_videos.qml"));
 
   engine.load(url);
 
