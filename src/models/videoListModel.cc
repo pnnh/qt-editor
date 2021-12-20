@@ -75,7 +75,7 @@ VideoListModel::~VideoListModel() {
   delete m_dptr;
 }
 
-int VideoListModel::rowCount(const QModelIndex &parent) const {
+int VideoListModel::rowCount(const QModelIndex &parent = QModelIndex()) const {
   return m_dptr->m_videos.size();
 }
 
@@ -86,6 +86,14 @@ void VideoListModel::add(QVariantMap value) {
       .UserName = name
   };
   addInfo(info);
+
+  beginInsertRows(QModelIndex(), 0, 0);
+
+  auto video = new VideoData();
+  video->append("name " + info.UserName);
+  m_dptr->m_videos.insert(0, video);
+
+  endInsertRows();
 }
 
 QVariant VideoListModel::data(const QModelIndex &index, int role) const {
