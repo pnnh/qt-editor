@@ -27,10 +27,12 @@ Window {
                 Row {
                     anchors.fill: parent;
                     Button {
-                        anchors.right: parent.right;
                         anchors.verticalCenter: parent.verticalCenter;
                         anchors.rightMargin: 4
                         text: "添加"
+                        onClicked: {
+                            listLoader.item.addOne();
+                        }
                     }
                 }
             }

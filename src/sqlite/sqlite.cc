@@ -80,17 +80,6 @@ QVector<TestInfo> runSqlite() {
   }
 
   //插入数据
-  auto insertSql = QString("INSERT INTO %1 (UserName, IP, Port, PassWord, Type)"
-                           "VALUES (:UserName, :IP, :Port, :PassWord, :Type)").arg(TableUsers);
-  query.prepare(insertSql);
-  query.bindValue(":UserName", "user4");    //给每个插入值标识符设定具体值
-  query.bindValue(":IP", "192.168.1.5");
-  query.bindValue(":Port", "5004");
-  query.bindValue(":PassWord", "55555");
-  query.bindValue(":Type", "operator");
-  auto insertResult = query.exec();
-
-  qDebug() << "insertResult: " << query.lastError().text();
 
 
   //更改表中 UserName=user4 的Type属性为admin
@@ -103,4 +92,19 @@ QVector<TestInfo> runSqlite() {
 //  query.exec();
 
   return infoVect;
+}
+
+void addInfo(TestInfo info) {
+    QSqlQuery query;
+    auto insertSql = QString("INSERT INTO %1 (UserName, IP, Port, PassWord, Type)"
+                             "VALUES (:UserName, :IP, :Port, :PassWord, :Type)").arg(TableUsers);
+    query.prepare(insertSql);
+    query.bindValue(":UserName", info.UserName);    //给每个插入值标识符设定具体值
+    query.bindValue(":IP", "192.168.1.5");
+    query.bindValue(":Port", "5004");
+    query.bindValue(":PassWord", "55555");
+    query.bindValue(":Type", "operator");
+    auto insertResult = query.exec();
+
+    qDebug() << "insertResult: " << query.lastError().text();
 }

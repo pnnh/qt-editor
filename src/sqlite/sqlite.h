@@ -18,5 +18,6 @@ typedef struct  //假定数据库存储内容
 } TestInfo;
 
 QVector<TestInfo> runSqlite();
+void addInfo(TestInfo info);
 
 #endif //QT_EDITOR_SQLITE_H
