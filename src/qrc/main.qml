@@ -14,7 +14,7 @@ Window {
         spacing: 0;
         RowLayout {
             id: rowLayout;
-            Layout.alignment: Qt.AlignTop
+            Layout.alignment: Qt.AlignCenter
             Rectangle {
                 color: 'teal'
                 Layout.fillWidth: true
@@ -23,6 +23,15 @@ Window {
                 Text {
                     anchors.centerIn: parent
                     text: parent.width + 'x' + parent.height
+                }
+                Row {
+                    anchors.fill: parent;
+                    Button {
+                        anchors.right: parent.right;
+                        anchors.verticalCenter: parent.verticalCenter;
+                        anchors.rightMargin: 4
+                        text: "添加"
+                    }
                 }
             }
         }
@@ -42,6 +51,7 @@ Window {
                     text: parent.width + 'x' + parent.height
                 }
                 Loader {
+                    id: listLoader;
                     anchors.fill: parent;
                     source: "list_videos.qml"
                 }
@@ -49,6 +59,7 @@ Window {
             Rectangle {
                 color: 'plum'
                 Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.minimumWidth: 100
                 Layout.preferredWidth: 200
                 Layout.preferredHeight: 100
@@ -56,16 +67,14 @@ Window {
                     anchors.centerIn: parent
                     text: parent.width + 'x' + parent.height
                 }
-                Column {
-                    Text {
-                        text: "A"
-                    }
-                    Text {
-                        text: "B"
-                    }
-                    Text {
-                        text: "C"
-                    }
+                TextEdit {
+                    width: 240
+                    textFormat: Text.RichText
+                    text: "<b>Hello</b> <i>World!</i>"
+                    font.family: "Helvetica"
+                    font.pointSize: 20
+                    color: "blue"
+                    focus: true
                 }
             }
         }

@@ -15,6 +15,9 @@ Rectangle {
         Item {
             id: wrapper;
             height: 120;
+            signal remove();
+            signal add();
+
             MouseArea {
                 anchors.fill: parent;
                 onClicked: wrapper.ListView.view.currentIndex = index;
@@ -44,6 +47,9 @@ Rectangle {
             source: "videos.xml";
         }
         focus: true;
+        function addOne() {
+            console.log('addOne');
+        }
     }
 
 }
