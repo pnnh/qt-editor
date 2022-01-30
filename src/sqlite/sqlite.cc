@@ -13,8 +13,8 @@
 
 const QString TableUsers = "users";
 
-QVector<TestInfo> runSqlite() {
-  QVector<TestInfo> infoVect; //testInfo向量，用于存储数据库查询到的数据
+QVector<TaskInfo> runSqlite() {
+  QVector<TaskInfo> infoVect; //testInfo向量，用于存储数据库查询到的数据
 
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
@@ -64,7 +64,7 @@ QVector<TestInfo> runSqlite() {
   QString s1 = recode.fieldName(0);        //获取第0列的列名
 
   while (query.next()) {
-    TestInfo tmp;
+    TaskInfo tmp;
     tmp.pk = query.value("pk").toString();
     tmp.title = query.value("title").toString();
     tmp.creator = query.value("creator").toString();
@@ -87,8 +87,8 @@ QVector<TestInfo> runSqlite() {
 
 
   //更改表中 UserName=user4 的Type属性为admin
-  query.prepare("UPDATE posts SET title='admin' WHERE pk='user4'");
-  query.exec();
+//  query.prepare("UPDATE posts SET title='admin' WHERE pk='user4'");
+//  query.exec();
 
   //删除表中 UserName=user4的用户信息
   //auto deleteSql = QString("DELETE FROM %1 WHERE UserName='user4'").arg(TableUsers);
@@ -98,7 +98,7 @@ QVector<TestInfo> runSqlite() {
   return infoVect;
 }
 
-void addInfo(TestInfo info) {
+void addInfo(TaskInfo info) {
   QSqlQuery query;
   auto insertSql = QString("INSERT INTO %1 (pk, title, body, creator, create_time, update_time)"
                            "VALUES (:pk, :title, :body, :creator, :create_time, :update_time)").arg(TableUsers);
@@ -118,4 +118,19 @@ void addInfo(TestInfo info) {
   auto insertResult = query.exec();
 
   qDebug() << "insertResult: " << query.lastError().text();
+}
+
+void updateInfoTitle(QString pk, QString title) {
+  QSqlQuery query;
+  auto insertSql = QString("update %1 set title = :title, update_time=:update_time "
+                           "where pk = :pk").arg(TableUsers);
+  query.prepare(insertSql);
+  query.bindValue(":pk", pk);
+  query.bindValue(":title", title);
+  QDateTime timestamp = QDateTime::currentDateTime();
+  query.bindValue(":update_time", timestamp);
+
+  auto insertResult = query.exec();
+
+  qDebug() << "updateInfoTitle: " << query.lastError().text();
 }

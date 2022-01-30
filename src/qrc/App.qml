@@ -257,7 +257,9 @@ Rectangle {
                                 if (text.length < 1) {
                                     return
                                 }
-                                listView.model.add({ "name": text })
+                                listView.model.add({
+                                                       "name": text
+                                                   })
                                 text = ''
                             }
 
@@ -294,13 +296,18 @@ Rectangle {
                                 background: Item {
                                     opacity: 0
                                 }
+                                onAccepted: {
+                                    console.log("accepted", text)
+                                }
+                                onEditingFinished: {
+                                    console.log("onEditingFinished", text)
+                                    listView.model.update(index, {
+                                                              "name": text
+                                                          })
+                                }
 
                                 onPressed: {
                                     wrapper.ListView.view.currentIndex = index
-                                    console.log("clicked on TextInput",
-                                                wrapper.ListView.view.currentIndex,
-                                                wrapper.ListView.isCurrentItem,
-                                                index)
                                 }
                             }
                         }

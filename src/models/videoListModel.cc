@@ -16,6 +16,7 @@ class VideoListModelPrivate {
  public:
   VideoListModelPrivate() : m_bError(false) {
     int role = Qt::UserRole;
+    m_roleNames.insert(role++, "pk");
     m_roleNames.insert(role++, "name");
   }
   ~VideoListModelPrivate() {
@@ -31,12 +32,13 @@ class VideoListModelPrivate {
 //    }
     VideoData *video;
     auto dataVector = runSqlite();
-    QVectorIterator<TestInfo> dataIterator(dataVector);
+    QVectorIterator<TaskInfo> dataIterator(dataVector);
     while (dataIterator.hasNext()) {
       auto info = dataIterator.next();
       qDebug() << "info ==" << info.title;
 
       video = new VideoData();
+      video->append(info.pk);
       video->append(info.title);
       m_videos.append(video);
     }
@@ -82,7 +84,7 @@ int VideoListModel::rowCount(const QModelIndex &parent = QModelIndex()) const {
 void VideoListModel::add(QVariantMap value) {
   auto name = value["name"].value<QString>();
   qDebug() << "insertRows2" << name;
-  TestInfo info = {
+  TaskInfo info = {
       .title = name
   };
   addInfo(info);
@@ -90,10 +92,21 @@ void VideoListModel::add(QVariantMap value) {
   beginInsertRows(QModelIndex(), 0, 0);
 
   auto video = new VideoData();
+  video->append(info.pk);
   video->append(info.title);
   m_dptr->m_videos.insert(0, video);
 
   endInsertRows();
+}
+
+void VideoListModel::update(int index, QVariantMap value) {
+  auto title = value["name"].value<QString>();
+  qDebug() << "updateRows" << title;
+  auto item = m_dptr->m_videos[index];
+  auto pk = (*item)[0];
+  qDebug() << "updateRows2" << pk << "|" << title;
+
+  updateInfoTitle(pk, title);
 }
 
 QVariant VideoListModel::data(const QModelIndex &index, int role) const {

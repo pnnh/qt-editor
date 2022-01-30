@@ -24,6 +24,7 @@ class VideoListModel : public QAbstractListModel {
   Q_INVOKABLE void reload();
   Q_INVOKABLE void remove(int index);
   Q_INVOKABLE void add(QVariantMap value);
+  Q_INVOKABLE void update(int index, QVariantMap value);
  private:
   VideoListModelPrivate *m_dptr;
 };

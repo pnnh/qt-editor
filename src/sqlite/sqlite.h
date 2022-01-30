@@ -17,9 +17,10 @@ typedef struct  //假定数据库存储内容
   QDateTime create_time;
   QDateTime update_time;
 
-} TestInfo;
+} TaskInfo;
 
-QVector<TestInfo> runSqlite();
-void addInfo(TestInfo info);
+QVector<TaskInfo> runSqlite();
+void addInfo(TaskInfo info);
+void updateInfoTitle(QString pk, QString title);
 
 #endif //QT_EDITOR_SQLITE_H
