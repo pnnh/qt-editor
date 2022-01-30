@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import an.qt.CModel
 
 Rectangle {
     anchors.fill: parent
@@ -287,10 +288,11 @@ Rectangle {
                     id: listDelegate
 
                     Rectangle {
+                        id: wrapper
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 40
-                        color: "#EDF3FF"
+                        height: 32
+                        color: wrapper.ListView.isCurrentItem ? "#EDF3FF" : "#FFF"
                         RowLayout {
                             anchors.fill: parent
                             spacing: 2
@@ -298,11 +300,25 @@ Rectangle {
                             CheckBox {
                                 Layout.preferredWidth: 15
                             }
-                            TextInput {
+                            TextField {
                                 Layout.alignment: Qt.AlignVCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: "在资产转移1" + name
                                 selectByMouse: true
+                                background: Item {
+                                    opacity: 0
+                                }
+
+                                onPressed: {
+                                    //                                    wrapper.ListView.view.model.move(
+                                    //                                                wrapper.ListView.view.currentIndex,
+                                    //                                                index, 0)
+                                    wrapper.ListView.view.currentIndex = index
+                                    console.log("clicked on TextInput",
+                                                wrapper.ListView.view.currentIndex,
+                                                wrapper.ListView.isCurrentItem,
+                                                index)
+                                }
                             }
                         }
                     }
@@ -317,19 +333,16 @@ Rectangle {
                     topMargin: 16
                     spacing: 4
                     clip: true
+                    orientation: ListView.Vertical
                     delegate: listDelegate
-                    model: ListModel {
-                        ListElement {
-                            name: "Bill Smith"
-                            number: "555 3264"
-                        }
-                        ListElement {
-                            name: "John Brown"
-                            number: "555 8426"
-                        }
-                        ListElement {
-                            name: "Sam Wise"
-                            number: "555 0473"
+                    boundsBehavior: Flickable.StopAtBounds
+                    model: VideoListModel {
+                        source: "videos.xml"
+                    }
+                    ScrollBar.vertical: ScrollBar {
+                        visible: active
+                        background: Item {
+                            opacity: 0
                         }
                     }
                 }
