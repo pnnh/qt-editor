@@ -8,6 +8,8 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
 #include <QSqlError>
+#include <QUuid>
+#include <QDateTime>
 
 const QString TableUsers = "users";
 
@@ -38,11 +40,13 @@ QVector<TestInfo> runSqlite() {
   }
   if (columnName != TableUsers) {
     auto createSql = QString("CREATE TABLE %1("
-                             "UserName VARCHAR,"
-                             "IP VARCHAR,"
-                             "PassWord VARCHAR,"
-                             "Type VARCHAR,"
-                             "Port VARCHAR)").arg(TableUsers);
+                             "pk VARCHAR PRIMARY KEY NOT NULL,"
+                             "title VARCHAR NOT NULL,"
+                             "body VARCHAR NOT NULL,"
+                             "creator VARCHAR NOT NULL,"
+                             "create_time TIMESTAMP NOT NULL,"
+                             "update_time TIMESTAMP NOT NULL)"
+    ).arg(TableUsers);
     if (!query.exec(createSql)) {
       qDebug() << "创建表出错: " << query.lastError().text();
       //qDebug() << "Database Error: " << query.lastError().text();
@@ -51,7 +55,7 @@ QVector<TestInfo> runSqlite() {
   }
 
   //查询数据
-  auto querySql = QString("SELECT * FROM %1").arg(TableUsers);
+  auto querySql = QString("SELECT * FROM %1 order by create_time desc").arg(TableUsers);
   query.prepare(querySql);
   query.exec();    //执行
 
@@ -61,29 +65,29 @@ QVector<TestInfo> runSqlite() {
 
   while (query.next()) {
     TestInfo tmp;
-    tmp.UserName = query.value("UserName").toString();
-    tmp.IP = query.value("IP").toString();
-    tmp.Port = query.value("Port").toString();
-    tmp.PassWord = query.value("PassWord").toString();
-    tmp.Type = query.value("Type").toString();
+    tmp.pk = query.value("pk").toString();
+    tmp.title = query.value("title").toString();
+    tmp.creator = query.value("creator").toString();
+    tmp.create_time = query.value("create_time").toDateTime();
+    tmp.update_time = query.value("update_time").toDateTime();
 
     infoVect.push_back(tmp);   //将查询到的内容存到testInfo向量中
   }
 
-  for (int i = 0; i < infoVect.size(); i++)    //打印输出
-  {
-    qDebug() << infoVect[i].UserName << ":"    \
- << infoVect[i].IP << ":"        \
- << infoVect[i].Port << ":"        \
- << infoVect[i].PassWord << ":" \
- << infoVect[i].Type;
-  }
+//  for (int i = 0; i < infoVect.size(); i++)    //打印输出
+//  {
+//    qDebug() << infoVect[i].UserName << ":"    \
+// << infoVect[i].IP << ":"        \
+// << infoVect[i].Port << ":"        \
+// << infoVect[i].PassWord << ":" \
+// << infoVect[i].Type;
+//  }
 
   //插入数据
 
 
   //更改表中 UserName=user4 的Type属性为admin
-  query.prepare("UPDATE posts SET Type='admin' WHERE UserName='user4'");
+  query.prepare("UPDATE posts SET title='admin' WHERE pk='user4'");
   query.exec();
 
   //删除表中 UserName=user4的用户信息
@@ -95,16 +99,23 @@ QVector<TestInfo> runSqlite() {
 }
 
 void addInfo(TestInfo info) {
-    QSqlQuery query;
-    auto insertSql = QString("INSERT INTO %1 (UserName, IP, Port, PassWord, Type)"
-                             "VALUES (:UserName, :IP, :Port, :PassWord, :Type)").arg(TableUsers);
-    query.prepare(insertSql);
-    query.bindValue(":UserName", info.UserName);    //给每个插入值标识符设定具体值
-    query.bindValue(":IP", "192.168.1.5");
-    query.bindValue(":Port", "5004");
-    query.bindValue(":PassWord", "55555");
-    query.bindValue(":Type", "operator");
-    auto insertResult = query.exec();
+  QSqlQuery query;
+  auto insertSql = QString("INSERT INTO %1 (pk, title, body, creator, create_time, update_time)"
+                           "VALUES (:pk, :title, :body, :creator, :create_time, :update_time)").arg(TableUsers);
+  query.prepare(insertSql);
+  QUuid id = QUuid::createUuid();
+  QString strId = id.toString();
+  strId.remove("{").remove("}").remove("-"); // 一般习惯去掉左右花括号和连字符
+  qDebug() << strId;
+  query.bindValue(":pk", strId);
+  query.bindValue(":title", info.title);    //给每个插入值标识符设定具体值
+  query.bindValue(":body", info.body);
+  query.bindValue(":creator", "1");
+  QDateTime timestamp = QDateTime::currentDateTime();
+  query.bindValue(":create_time", timestamp);
+  query.bindValue(":update_time", timestamp);
 
-    qDebug() << "insertResult: " << query.lastError().text();
+  auto insertResult = query.exec();
+
+  qDebug() << "insertResult: " << query.lastError().text();
 }

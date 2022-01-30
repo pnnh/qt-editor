@@ -34,10 +34,10 @@ class VideoListModelPrivate {
     QVectorIterator<TestInfo> dataIterator(dataVector);
     while (dataIterator.hasNext()) {
       auto info = dataIterator.next();
-      qDebug() << "info ==" << info.UserName;
+      qDebug() << "info ==" << info.title;
 
       video = new VideoData();
-      video->append("name " + info.UserName);
+      video->append(info.title);
       m_videos.append(video);
     }
 
@@ -83,14 +83,14 @@ void VideoListModel::add(QVariantMap value) {
   auto name = value["name"].value<QString>();
   qDebug() << "insertRows2" << name;
   TestInfo info = {
-      .UserName = name
+      .title = name
   };
   addInfo(info);
 
   beginInsertRows(QModelIndex(), 0, 0);
 
   auto video = new VideoData();
-  video->append("name " + info.UserName);
+  video->append(info.title);
   m_dptr->m_videos.insert(0, video);
 
   endInsertRows();

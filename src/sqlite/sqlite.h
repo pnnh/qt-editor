@@ -6,14 +6,16 @@
 #define QT_EDITOR_SQLITE_H
 
 #include <QString>
+#include <QDateTime>
 
 typedef struct  //假定数据库存储内容
 {
-  QString UserName;
-  QString IP;
-  QString Port;
-  QString PassWord;
-  QString Type;
+  QString pk;
+  QString title;
+  QString body;
+  QString creator;
+  QDateTime create_time;
+  QDateTime update_time;
 
 } TestInfo;
 

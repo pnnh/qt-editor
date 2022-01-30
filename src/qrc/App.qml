@@ -253,9 +253,13 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             placeholderText: qsTr("请输入原密码")
                             focus: true
-                            onAccepted: listView.model.add({
-                                                               "name": text
-                                                           })
+                            onAccepted: {
+                                if (text.length < 1) {
+                                    return
+                                }
+                                listView.model.add({ "name": text })
+                                text = ''
+                            }
 
                             background: Rectangle {
                                 color: "#f2f2f2"
@@ -282,8 +286,10 @@ Rectangle {
                             }
                             TextField {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
                                 verticalAlignment: Text.AlignVCenter
-                                text: "在资产转移1" + name
+                                horizontalAlignment: Text.AlignHLeft
+                                text: name
                                 selectByMouse: true
                                 background: Item {
                                     opacity: 0
