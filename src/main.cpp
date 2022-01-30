@@ -8,9 +8,9 @@
 #include "models/videoListModel.h"
 
 int main(int argc, char *argv[]) {
+  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication app(argc, argv);
   qmlRegisterType<VideoListModel>("an.qt.CModel", 1, 0, "VideoListModel");
-
 
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/src/qrc/main.qml"));

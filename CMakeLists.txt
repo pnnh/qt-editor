@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Quick Sql REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick QuickControls2 Sql REQUIRED)
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -26,7 +26,10 @@ qt_add_executable(qt-editor
         ${PROJECT_SOURCES})
 
 target_link_libraries(qt-editor
-        PRIVATE Qt6::Core Qt6::Quick Qt6::Sql)
+        PRIVATE Qt6::Core Qt6::Quick Qt6::QuickControls2 Qt6::Sql)
 
 qt_import_qml_plugins(qt-editor)
 qt_finalize_executable(qt-editor)
+
+# 禁止使用Qt 5.15中弃用的API
+add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)

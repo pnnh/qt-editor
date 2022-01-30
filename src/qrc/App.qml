@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import an.qt.CModel
+import an.qt.CModel 1.0
 
 Rectangle {
     anchors.fill: parent
@@ -58,10 +58,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "所有"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'all'
-                        }
+                        onClicked: colNav.activeRow = 'all'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'all') ? "#EDF3FF" : "#FFF"
@@ -83,10 +80,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "今天"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'today'
-                        }
+                        onClicked: colNav.activeRow = 'today'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'today') ? "#EDF3FF" : "#FFF"
@@ -108,10 +102,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "明天"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'tomorrow'
-                        }
+                        onClicked: colNav.activeRow = 'tomorrow'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'tomorrow') ? "#EDF3FF" : "#FFF"
@@ -133,10 +124,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "最近七天"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'next7days'
-                        }
+                        onClicked: colNav.activeRow = 'next7days'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'next7days') ? "#EDF3FF" : "#FFF"
@@ -158,10 +146,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "收集箱"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'inbox'
-                        }
+                        onClicked: colNav.activeRow = 'inbox'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'inbox') ? "#EDF3FF" : "#FFF"
@@ -188,10 +173,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "已完成"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'complete'
-                        }
+                        onClicked: colNav.activeRow = 'complete'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'complete') ? "#EDF3FF" : "#FFF"
@@ -213,10 +195,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "已放弃"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'droped'
-                        }
+                        onClicked: colNav.activeRow = 'droped'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'droped') ? "#EDF3FF" : "#FFF"
@@ -238,10 +217,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             text: "垃圾箱"
                         }
-                        onClicked: {
-                            console.log("onClicked")
-                            colNav.activeRow = 'trash'
-                        }
+                        onClicked: colNav.activeRow = 'trash'
                         background: Rectangle {
                             color: parent.hovered
                                    || (colNav.activeRow === 'trash') ? "#EDF3FF" : "#FFF"
@@ -277,6 +253,10 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             placeholderText: qsTr("请输入原密码")
                             focus: true
+                            onAccepted: listView.model.add({
+                                                               "name": text
+                                                           })
+
                             background: Rectangle {
                                 color: "#f2f2f2"
                             }
@@ -310,9 +290,6 @@ Rectangle {
                                 }
 
                                 onPressed: {
-                                    //                                    wrapper.ListView.view.model.move(
-                                    //                                                wrapper.ListView.view.currentIndex,
-                                    //                                                index, 0)
                                     wrapper.ListView.view.currentIndex = index
                                     console.log("clicked on TextInput",
                                                 wrapper.ListView.view.currentIndex,
