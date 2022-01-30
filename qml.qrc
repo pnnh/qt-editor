@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>src/qrc/main.qml</file>
         <file>src/qrc/list_videos.qml</file>
+        <file>src/qrc/App.qml</file>
     </qresource>
 </RCC>
