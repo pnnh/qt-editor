@@ -6,6 +6,8 @@ import an.qt.CModel 1.0
 
 Rectangle {
     id: listRectangle;
+    color: "#ffffff"
+    border.color: "#ffffff"
 //    Text {
 //        text: "Videos"
 //    }

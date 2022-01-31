@@ -4,5 +4,7 @@
         <file>src/qrc/list_videos.qml</file>
         <file>src/qrc/App.qml</file>
         <file>src/qrc/FxScrollBar.qml</file>
+        <file>src/qrc/TaskList.qml</file>
+        <file>src/qrc/NavList.qml</file>
     </qresource>
 </RCC>
