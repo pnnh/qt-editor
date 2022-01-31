@@ -5,10 +5,6 @@ import an.qt.CModel 1.0
 
 ListView {
     id: listView
-    anchors.top: newTask.bottom
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
     topMargin: 16
     spacing: 4
     clip: true

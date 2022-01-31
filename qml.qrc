@@ -6,5 +6,6 @@
         <file>src/qrc/FxScrollBar.qml</file>
         <file>src/qrc/TaskList.qml</file>
         <file>src/qrc/NavList.qml</file>
+        <file>res/images/flag-fill.png</file>
     </qresource>
 </RCC>
