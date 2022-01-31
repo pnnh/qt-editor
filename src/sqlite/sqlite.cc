@@ -98,6 +98,43 @@ QVector<TaskInfo> runSqlite() {
   return infoVect;
 }
 
+TaskInfo sqlite::getTask(QString pk) {
+  QSqlQuery query;
+  auto insertSql = QString("select * from %1 where pk=:pk").arg(TableUsers);
+  query.prepare(insertSql);
+  query.bindValue(":pk", pk);
+
+  auto insertResult = query.exec();
+
+  qDebug() << "updateInfoTitle: " << query.lastError().text();
+
+  TaskInfo tmp;
+  while (query.next()) {
+    tmp.pk = query.value("pk").toString();
+    tmp.title = query.value("title").toString();
+    tmp.body = query.value("body").toString();
+    tmp.creator = query.value("creator").toString();
+    tmp.create_time = query.value("create_time").toDateTime();
+    tmp.update_time = query.value("update_time").toDateTime();
+  }
+  return tmp;
+}
+
+void sqlite::updateBody(QString pk, QString body) {
+  QSqlQuery query;
+  auto insertSql = QString("update %1 set body = :body, update_time=:update_time "
+                           "where pk = :pk").arg(TableUsers);
+  query.prepare(insertSql);
+  query.bindValue(":pk", pk);
+  query.bindValue(":body", body);
+  QDateTime timestamp = QDateTime::currentDateTime();
+  query.bindValue(":update_time", timestamp);
+
+  auto insertResult = query.exec();
+
+  qDebug() << "updateBody: " << query.lastError().text();
+}
+
 void addInfo(TaskInfo info) {
   QSqlQuery query;
   auto insertSql = QString("INSERT INTO %1 (pk, title, body, creator, create_time, update_time)"

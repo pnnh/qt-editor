@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
         src/wasm/wasm.h
         src/sqlite/sqlite.cc src/sqlite/sqlite.h
         src/models/videoListModel.cc src/models/videoListModel.h
+        src/models/sqliteModel.cc src/models/sqliteModel.h
         qml.qrc)
 
 qt_add_executable(qt-editor
@@ -30,6 +31,3 @@ target_link_libraries(qt-editor
 
 qt_import_qml_plugins(qt-editor)
 qt_finalize_executable(qt-editor)
-
-# 禁止使用Qt 5.15中弃用的API
-add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)

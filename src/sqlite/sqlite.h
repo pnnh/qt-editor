@@ -23,4 +23,9 @@ QVector<TaskInfo> runSqlite();
 void addInfo(TaskInfo info);
 void updateInfoTitle(QString pk, QString title);
 
+namespace sqlite {
+TaskInfo getTask(QString pk);
+void updateBody(QString pk, QString body);
+}
+
 #endif //QT_EDITOR_SQLITE_H

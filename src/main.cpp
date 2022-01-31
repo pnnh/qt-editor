@@ -6,6 +6,7 @@
 #include <iostream>
 #include "sqlite/sqlite.h"
 #include "models/videoListModel.h"
+#include "src/models/sqliteModel.h"
 
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
@@ -13,6 +14,8 @@ int main(int argc, char *argv[]) {
 
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/src/qrc/main.qml"));
+  
+  engine.rootContext()->setContextProperty("sqlite", new sqliteModel());
 
   engine.load(url);
 

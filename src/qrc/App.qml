@@ -34,11 +34,8 @@ Rectangle {
             NavList {}
 
             ColumnLayout {
-                Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumWidth: 50
-                Layout.preferredWidth: 100
-                Layout.maximumWidth: 300
+                width: 150
                 Layout.minimumHeight: 150
                 Layout.leftMargin: 8
                 Layout.rightMargin: 8
@@ -79,6 +76,19 @@ Rectangle {
                     id: taskList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    onItemPressed: {
+                        console.log("onItemPressed", pk)
+                        var item = sqlite.getTask(pk)
+
+                        console.log("onItemPressed2", item.pk, item.body)
+
+                        if (taskBody.currentItemPk) {
+                            sqlite.updateTaskBody(taskBody.currentItemPk,
+                                                  taskBody.text)
+                        }
+                        taskBody.text = item.body
+                        taskBody.currentItemPk = item.pk
+                    }
                 }
             }
             ColumnLayout {
@@ -112,16 +122,25 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.topMargin: 8
                     TextEdit {
+                        id: taskBody
+                        property string currentItemPk
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         width: 240
-                        textFormat: Text.RichText
-                        text: "<b>Hello</b> <i>World!</i>"
+                        textFormat: Text.PlainText
+                        text: "Hello World!"
                         font.family: "Helvetica"
                         font.pointSize: 20
                         selectByMouse: true
                         color: "blue"
                         focus: true
+                        onEditingFinished: {
+                            console.log("taskBodyFinished", text,
+                                        currentItemPk, "dddd")
+                            if (currentItemPk) {
+                                sqlite.updateTaskBody(currentItemPk, text)
+                            }
+                        }
                     }
                 }
             }

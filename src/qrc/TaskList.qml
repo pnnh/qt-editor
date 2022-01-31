@@ -5,6 +5,7 @@ import an.qt.CModel 1.0
 
 ListView {
     id: listView
+    signal itemPressed(var pk)
     topMargin: 16
     spacing: 4
     clip: true
@@ -37,13 +38,16 @@ ListView {
                 }
                 onEditingFinished: {
                     console.log("onEditingFinished", text)
-                    wrapper.ListView.model.update(index, {
-                                                      "name": text
-                                                  })
+                    listView.model.update(index, {
+                                              "name": text
+                                          })
                 }
 
                 onPressed: {
                     wrapper.ListView.view.currentIndex = index
+                    let item = listView.model.get(index)
+                    console.log("item", item.pk, item.title)
+                    listView.itemPressed(item.pk)
                 }
             }
         }

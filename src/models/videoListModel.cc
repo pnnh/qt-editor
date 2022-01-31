@@ -150,3 +150,15 @@ void VideoListModel::remove(int index) {
   delete m_dptr->m_videos.takeAt(index);
   endRemoveRows();
 }
+
+QVariantMap VideoListModel::get(int index) {
+  QVariantMap itemMap;
+  if (index < m_dptr->m_videos.size()) {
+    auto item = m_dptr->m_videos[index];
+    if (item != nullptr && item->length() > 1) {
+      itemMap["pk"] = (*item)[0];
+      itemMap["title"] = (*item)[1];
+    }
+  }
+  return itemMap;
+}
