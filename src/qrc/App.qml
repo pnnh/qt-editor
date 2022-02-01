@@ -76,7 +76,7 @@ Rectangle {
                     id: taskList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    onItemPressed: {
+                    onItemPressed: pk => {
                         console.log("onItemPressed", pk)
                         var item = sqlite.getTask(pk)
 
@@ -111,7 +111,7 @@ Rectangle {
 
                     Image {
                         Layout.alignment: Qt.AlignRight
-                        source: "qrc:/res/images/flag-fill.png"
+                        source: "qrc:/QtEditor/res/images/flag-fill.png"
                         sourceSize.width: 16
                         sourceSize.height: 16
                         fillMode: Image.Stretch

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtEditor
 import an.qt.CModel 1.0
 
 ListView {
@@ -50,6 +51,9 @@ ListView {
                     listView.itemPressed(item.pk)
                 }
             }
+                MyType{
+                    answer: 43
+                }
         }
     }
     boundsBehavior: Flickable.StopAtBounds

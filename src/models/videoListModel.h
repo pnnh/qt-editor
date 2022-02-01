@@ -23,7 +23,7 @@ class VideoListModel : public QAbstractListModel {
   Q_INVOKABLE [[nodiscard]] bool hasError() const;
   Q_INVOKABLE void reload();
   Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE QVariantMap get(int index);
+  Q_INVOKABLE QVariantMap get(int index);
   Q_INVOKABLE void add(QVariantMap value);
   Q_INVOKABLE void update(int index, QVariantMap value);
  private:
